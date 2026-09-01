@@ -79,7 +79,7 @@ public class Main {
                             try{
                                 atmService.seeAllAccount();
                             }catch (AccontNotFoundException e){
-                                out.println("Errors : "+ e.getMessage());
+                                out.println("Error : "+ e.getMessage());
                             }
                             break;
                         case 3:
