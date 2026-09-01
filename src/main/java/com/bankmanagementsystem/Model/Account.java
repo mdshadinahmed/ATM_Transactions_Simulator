@@ -1,6 +1,6 @@
 package com.bankmanagementsystem.Model;
 
-import com.bankmanagementsystem.CustomException.NegativeNumberCannotBeDeposit;
+import com.bankmanagementsystem.CustomException.NegativeAmountCannotBeDeposit;
 import com.bankmanagementsystem.CustomException.NegativeNumbercannotBeAccountID;
 
 import static java.lang.System.out;
@@ -19,12 +19,18 @@ public class Account {
     private String accountType;
     private double firstDepositBalance;
 
-    // No-Args Constructor to reduce Constructor mismatch Exception
+    // No-Args Constructor to reduce Constructor Mismatch Exception
     public Account(){
         super();
     }
+
+    // Constructor overloaded
+    public Account(int id, String name){
+        this(id,name,"null",0.0);
+    }
+
     public Account(int accountHolderId, String accountHolderName,
-                   String accountType, double firstDepositBalance) throws NegativeNumberCannotBeDeposit, NegativeNumbercannotBeAccountID {
+                   String accountType, double firstDepositBalance) throws NegativeAmountCannotBeDeposit, NegativeNumbercannotBeAccountID {
         super();
 
        if(accountHolderId<=0  ){
@@ -32,12 +38,11 @@ public class Account {
        }else {
            this.accountHolderId = accountHolderId;
        }
-
         this.accountHolderName = accountHolderName;
         this.accountType = accountType;
 
         if (firstDepositBalance<0){
-            throw new NegativeNumberCannotBeDeposit("Negative Number cannot be deposit...");
+            throw new NegativeAmountCannotBeDeposit("Negative Number cannot be deposit...");
         }else {
             this.firstDepositBalance = firstDepositBalance;
         }
@@ -80,7 +85,7 @@ public class Account {
     }
 
     public void setFirstDepositBalance(double firstDepositBalance) {
-        this.firstDepositBalance = firstDepositBalance;
+        this.firstDepositBalance = this.firstDepositBalance + firstDepositBalance;
     }
 
 

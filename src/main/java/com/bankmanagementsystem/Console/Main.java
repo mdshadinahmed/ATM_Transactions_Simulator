@@ -1,13 +1,11 @@
 package com.bankmanagementsystem.Console;
 
 
-import com.bankmanagementsystem.CustomException.AccontNotFoundException;
-import com.bankmanagementsystem.CustomException.DuplicateAccountFound;
-import com.bankmanagementsystem.CustomException.NegativeNumberCannotBeDeposit;
-import com.bankmanagementsystem.CustomException.NegativeNumbercannotBeAccountID;
+import com.bankmanagementsystem.CustomException.*;
 import com.bankmanagementsystem.Model.Account;
 import com.bankmanagementsystem.ServiceLayer.ATMService;
 
+import java.lang.runtime.SwitchBootstraps;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -15,6 +13,8 @@ import static java.lang.System.*;
 
 
 public class Main {
+
+    public static int accountId;
 
 
     public static void main(String[] args) {
@@ -24,7 +24,7 @@ public class Main {
         //= Scanner
         Scanner scanner = new Scanner(in);
 
-        //= Service Layer
+        //= Service Layer Object
         ATMService atmService = new ATMService();
 
         while (true){
@@ -44,10 +44,14 @@ public class Main {
                     out.println("Please Enter the Number with 1-5\n\n");
                 }else {
                     switch (choice){
+
+                        //-----------------------------------------------
+                        //= Create Account
+                        //-----------------------------------------------
                         case 1:
                             try{
                                 out.println("Enter Account Id");
-                                int  accountId = scanner.nextInt();;
+                                accountId = scanner.nextInt();;
 
                                 //-----------------------
                                 //= Buffer Clear
@@ -67,7 +71,7 @@ public class Main {
 
                                 atmService.createAccount(account);
 
-                            }catch (NegativeNumberCannotBeDeposit e){
+                            }catch (NegativeAmountCannotBeDeposit e){
                                 out.println("Error : "+e.getMessage());;
                             }catch (NegativeNumbercannotBeAccountID e){
                                 out.println("Error : "+e.getMessage());;
@@ -75,6 +79,10 @@ public class Main {
                                 out.println("Error: "+e.getMessage());
                             }
                             break;
+
+                        //-----------------------------------------------
+                        //= See All Account
+                        //-----------------------------------------------
                         case 2:
                             try{
                                 atmService.seeAllAccount();
@@ -82,14 +90,55 @@ public class Main {
                                 out.println("Error : "+ e.getMessage());
                             }
                             break;
+
+                        //-----------------------------------------------
+                        //= Check Balance
+                        //-----------------------------------------------
                         case 3:
                             out.println("Enter account id : ");
-                            int accountId = scanner.nextInt();
+                            accountId = scanner.nextInt();
                             try{
-                                atmService.checkBalance(101);
+                                atmService.checkBalance(accountId);
                             }catch (AccontNotFoundException e){
                                 out.println("Error : "+e.getMessage());
                             }
+                            break;
+
+                        //-----------------------------------------------
+                        //= Deposit Account
+                        //-----------------------------------------------
+                        case 4:
+                            out.println("Enter Your account ID : ");
+                            accountId = scanner.nextInt();
+                            out.println("Enter your deposit amount");
+                            int depositAmount = scanner.nextInt();
+                            try {
+                                atmService.deposit(accountId, depositAmount);
+                            }catch (NegativeAmountCannotBeDeposit e){
+                                out.println(e.getMessage());
+                            }catch (AccontNotFoundException e){
+                                out.println("Error : "+ e.getClass());
+                            }
+                            break;
+
+                        //-----------------------------------------------
+                        //= Withdraw Account
+                        //-----------------------------------------------
+                        case 5:
+                            out.println("Enter your account id : ");
+                            accountId = scanner.nextInt();
+
+                            scanner.nextLine();
+
+                            out.println("Enter Withdraw  Amount : ");
+                            double amount = scanner.nextDouble();
+
+                            try{
+                                atmService.withdraw(accountId,amount);
+                            }catch (InsufficientFundException e){
+                                out.println("Error : " + e.getMessage());
+                            }
+                            break;
 
                     }
                 }
@@ -98,7 +147,6 @@ public class Main {
 
             }catch (InputMismatchException e){
                 out.println("Invalid choice!!\nPlease Enter Valid Number : ");
-                break;
             }
         }
 
