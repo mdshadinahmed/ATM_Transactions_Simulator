@@ -10,10 +10,14 @@ public class ATMService implements ATM_GUI_Screen {
 
     ArrayList<Account> accounts  = new ArrayList<>();
 
+
+    //---------------------------------------------------
+    //= Create Account Function
+    //---------------------------------------------------
     @Override
     public void createAccount(Account account){
 
-     // duplicate account find
+     // Duplicate Account Find
         int getPresentId = account.getAccountHolderId();
         boolean dupAccountIsFound = false;
         for (Account account1 : accounts){
@@ -24,7 +28,7 @@ public class ATMService implements ATM_GUI_Screen {
         }
 
         if (dupAccountIsFound){
-            throw new DuplicateAccountFound("Account has already created...");
+            throw new DuplicateAccountFound("Account has already created...\n");
         }else {
             accounts.add(account);
 
@@ -32,6 +36,9 @@ public class ATMService implements ATM_GUI_Screen {
 
     }
 
+    //---------------------------------------------------
+    //= See All Account Function
+    //---------------------------------------------------
     @Override
     public void seeAllAccount(){
       if (!accounts.isEmpty()) {
@@ -41,14 +48,14 @@ public class ATMService implements ATM_GUI_Screen {
           }
       }
       else {
-              throw new AccontNotFoundException("No accounts Available!");
+              throw new AccontNotFoundException("No accounts Available!\n");
           }
       }
 
 
-
-
-
+    //---------------------------------------------------
+    //= Check Balance Function
+    //---------------------------------------------------
     @Override
     public void checkBalance(int accountId) {
 
@@ -61,26 +68,34 @@ public class ATMService implements ATM_GUI_Screen {
             }
         }
         if (isFound == 0){
-            throw new AccontNotFoundException("Account Not Available!");
+            throw new AccontNotFoundException("Account Not Available!\n");
         }
     }
 
+    //---------------------------------------------------
+    //= Deposit Function
+    //---------------------------------------------------
     @Override
     public void deposit(int id , double deposit) throws NegativeAmountCannotBeDeposit {
 
         for (Account account : accounts){
             if(account.getAccountHolderId() == id) {
                 if (deposit<0){
-                    throw new NegativeAmountCannotBeDeposit("Negative Number Found!");
+                    throw new NegativeAmountCannotBeDeposit("Negative Number Found!\n");
+                }else if(deposit == 0){
+                    System.out.println("Zero Cannot be deposit!!\n");
                 }else {
                     account.setFirstDepositBalance(deposit);
-                    System.out.println("Successfully Deposit : " + deposit);
+                    System.out.println("Successfully Deposit : " + deposit +"\n");
                 }
 
             }
         }
     }
 
+    //---------------------------------------------------
+    //= Withdraw Function
+    //---------------------------------------------------
     @Override
     public void withdraw(int accountID, double withdrawAmount ) {
         for (Account account : accounts){
@@ -88,15 +103,18 @@ public class ATMService implements ATM_GUI_Screen {
                 if (withdrawAmount<=account.getFirstDepositBalance() && withdrawAmount>=0){
                     double newBalance= account.getFirstDepositBalance() - withdrawAmount;
                     account.setFirstDepositBalance(newBalance);
-                    System.out.println("Withdraw Successful");
+                    System.out.println("Withdraw Successful\n");
                     break;
                 }else {
-                    throw new InsufficientFundException("Invalid withdraw please check your account..");
+                    throw new InsufficientFundException("Invalid withdraw please check your account..\n");
                 }
             }
         }
     }
 
+    //---------------------------------------------------
+    //= Transfer money Function
+    //---------------------------------------------------
     @Override
     public void transferMoney(int senderAccountId, int receiverAccountID, double amount) throws AccontNotFoundException, NegativeNumberFoundException, InsufficientFundException {
 
@@ -104,21 +122,42 @@ public class ATMService implements ATM_GUI_Screen {
         Account sender = null;
         Account receiver = null;
 
-        for (Account account : accounts){
-            if (account.getAccountHolderId() == senderAccountId){
+        for (Account account : accounts) {
+            if (account.getAccountHolderId() == senderAccountId) {
                 sender = account;
-                sender.setFirstDepositBalance(sender.getFirstDepositBalance() - amount);
                 break;
             }
         }
+        if (sender == null){
+            throw new AccontNotFoundException("Sender Account Not Found !");
+        }
+
 
         for (Account account : accounts){
             if (account.getAccountHolderId() == receiverAccountID){
                 receiver = account;
-                receiver.setFirstDepositBalance(receiver.getFirstDepositBalance() + amount);
                 break;
             }
         }
+        if (receiver == null){
+            throw new AccontNotFoundException("Receiver Account Not Found !");
+        }
+
+
+        // Transaction Here
+        if (amount<=0){
+            throw new NegativeNumberFoundException("Negative Number Cannot be deposit !");
+        }
+        if (amount>sender.getFirstDepositBalance()){
+            throw new InsufficientFundException("Insufficient Fund ! ");
+        }
+        sender.setFirstDepositBalance
+                    (sender.getFirstDepositBalance() - amount);
+        receiver.setFirstDepositBalance
+                    (receiver.getFirstDepositBalance() + amount);
+
+
+
 
 
     }
