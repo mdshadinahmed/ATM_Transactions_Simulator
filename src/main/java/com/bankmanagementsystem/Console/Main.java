@@ -117,6 +117,8 @@ public class Main {
                                 out.println(e.getMessage());
                             }catch (AccontNotFoundException e){
                                 out.println("Error : "+ e.getClass());
+                            }catch (InputMismatchException e){
+                                out.println("Error : " + e.getMessage());
                             }
                             break;
 
@@ -158,9 +160,7 @@ public class Main {
                             }catch (NegativeNumberFoundException negativeNumberFoundException){
                                 out.println("Error : "+ negativeNumberFoundException.getMessage());
                             }
-                            catch (InsufficientFundException insufficientFundException){
-                                out.println("Error : "+insufficientFundException.getMessage());
-                            }catch (Exception exception){
+                           catch (Exception exception){
                                 out.println("Error : " + exception.getMessage());
                             }
                             break;
@@ -180,7 +180,7 @@ public class Main {
                 }
 
             }catch (InputMismatchException e){
-                out.println("Invalid choice!");
+                out.println("Invalid");
                 out.println("Please Enter a Valid Number.");
                 scanner.nextLine();
             }

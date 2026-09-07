@@ -5,6 +5,7 @@ import com.bankmanagementsystem.Model.Account;
 import com.bankmanagementsystem.Interface.ATM_GUI_Screen;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 
 public class ATMService implements ATM_GUI_Screen {
 
@@ -76,22 +77,24 @@ public class ATMService implements ATM_GUI_Screen {
     //= Deposit Function
     //---------------------------------------------------
     @Override
-    public void deposit(int id , double deposit) throws NegativeAmountCannotBeDeposit {
+    public void deposit(int id , double deposit) throws NegativeAmountCannotBeDeposit, InputMismatchException {
+
+        Account accFound = null;
 
         for (Account account : accounts){
             if(account.getAccountHolderId() == id) {
-                if (deposit<0){
-                    throw new NegativeAmountCannotBeDeposit("Negative Number Found!\n");
-                }else if(deposit == 0){
-                    System.out.println("Zero Cannot be deposit!!\n");
-                }else {
-                    account.setFirstDepositBalance(deposit);
-                    System.out.println("Successfully Deposit : " + deposit +"\n");
-                }
-
+                accFound.setFirstDepositBalance(accFound.getFirstDepositBalance()+deposit);
+                accFound = account;
+                break;
             }
         }
-    }
+
+        if (accFound == null){
+                throw new NegativeAmountCannotBeDeposit("Negative amount can't deposit");
+            }
+
+        }
+
 
     //---------------------------------------------------
     //= Withdraw Function
