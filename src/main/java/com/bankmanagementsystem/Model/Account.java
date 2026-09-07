@@ -100,6 +100,6 @@ public class Account {
                 "Account Holder Id : " + accountHolderId +"\n"+
                 "Account Holder Name : '" + accountHolderName + "\n" +
                 "Account Type : '" + accountType + "\n" +
-                "Total Balance : " + firstDepositBalance ;
+                "Total Balance : " + firstDepositBalance +"\n--------------------------------------------";
     }
 }
