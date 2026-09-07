@@ -1,7 +1,7 @@
 package com.bankmanagementsystem.Model;
 
 import com.bankmanagementsystem.CustomException.NegativeAmountCannotBeDeposit;
-import com.bankmanagementsystem.CustomException.NegativeNumbercannotBeAccountID;
+import com.bankmanagementsystem.CustomException.NegativeNumberFoundException;
 
 import static java.lang.System.out;
 
@@ -30,11 +30,11 @@ public class Account {
     }
 
     public Account(int accountHolderId, String accountHolderName,
-                   String accountType, double firstDepositBalance) throws NegativeAmountCannotBeDeposit, NegativeNumbercannotBeAccountID {
+                   String accountType, double firstDepositBalance) throws NegativeAmountCannotBeDeposit, NegativeNumberFoundException {
         super();
 
        if(accountHolderId<=0  ){
-           throw new NegativeNumbercannotBeAccountID("Id cannot not be negative or Zero");
+           throw new NegativeNumberFoundException("Id cannot not be negative or Zero");
        }else {
            this.accountHolderId = accountHolderId;
        }
@@ -87,6 +87,8 @@ public class Account {
     public void setFirstDepositBalance(double firstDepositBalance) {
         this.firstDepositBalance = this.firstDepositBalance + firstDepositBalance;
     }
+
+
 
 
     //-------------------------

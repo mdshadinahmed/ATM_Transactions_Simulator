@@ -9,5 +9,5 @@ public interface ATM_GUI_Screen {
     public void checkBalance(int accountID);
     public void deposit(int id , double deposit) ;
     public void withdraw(int id, double withdrawAmount);
-    public void transferMoney();
+    public void transferMoney(int senderAccountId, int receiverAccountID, double amount);
 }

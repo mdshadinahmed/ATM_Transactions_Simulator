@@ -1,9 +1,6 @@
 package com.bankmanagementsystem.ServiceLayer;
 
-import com.bankmanagementsystem.CustomException.AccontNotFoundException;
-import com.bankmanagementsystem.CustomException.DuplicateAccountFound;
-import com.bankmanagementsystem.CustomException.InsufficientFundException;
-import com.bankmanagementsystem.CustomException.NegativeAmountCannotBeDeposit;
+import com.bankmanagementsystem.CustomException.*;
 import com.bankmanagementsystem.Model.Account;
 import com.bankmanagementsystem.Interface.ATM_GUI_Screen;
 
@@ -101,7 +98,28 @@ public class ATMService implements ATM_GUI_Screen {
     }
 
     @Override
-    public void transferMoney() {
+    public void transferMoney(int senderAccountId, int receiverAccountID, double amount) throws AccontNotFoundException, NegativeNumberFoundException, InsufficientFundException {
+
+
+        Account sender = null;
+        Account receiver = null;
+
+        for (Account account : accounts){
+            if (account.getAccountHolderId() == senderAccountId){
+                sender = account;
+                sender.setFirstDepositBalance(sender.getFirstDepositBalance() - amount);
+                break;
+            }
+        }
+
+        for (Account account : accounts){
+            if (account.getAccountHolderId() == receiverAccountID){
+                receiver = account;
+                receiver.setFirstDepositBalance(receiver.getFirstDepositBalance() + amount);
+                break;
+            }
+        }
+
 
     }
 }

@@ -5,7 +5,6 @@ import com.bankmanagementsystem.CustomException.*;
 import com.bankmanagementsystem.Model.Account;
 import com.bankmanagementsystem.ServiceLayer.ATMService;
 
-import java.lang.runtime.SwitchBootstraps;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -73,7 +72,7 @@ public class Main {
 
                             }catch (NegativeAmountCannotBeDeposit e){
                                 out.println("Error : "+e.getMessage());;
-                            }catch (NegativeNumbercannotBeAccountID e){
+                            }catch (NegativeNumberFoundException e){
                                 out.println("Error : "+e.getMessage());;
                             }catch (DuplicateAccountFound e){
                                 out.println("Error: "+e.getMessage());
