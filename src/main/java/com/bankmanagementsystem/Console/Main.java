@@ -139,13 +139,45 @@ public class Main {
                             }
                             break;
 
+                        case 6:
+                            out.println("Enter Sender account id : ");
+                            int senderAccountId = scanner.nextInt();
+                            out.println("Enter Receiver Account id : ");
+                            int receiverAccountId = scanner.nextInt();
+
+                            out.println("Enter Transfer Amount : ");
+                            double transferAmount = scanner.nextDouble();
+
+                            try {
+                                atmService.transferMoney(senderAccountId, receiverAccountId, transferAmount);
+                            }catch (AccontNotFoundException accontNotFoundException){
+                                out.println("Error : "+accontNotFoundException.getMessage());
+                            }catch (NegativeNumberFoundException negativeNumberFoundException){
+                                out.println("Error : "+ negativeNumberFoundException.getMessage());
+                            }
+                            catch (InsufficientFundException insufficientFundException){
+                                out.println("Error : "+insufficientFundException.getMessage());
+                            }catch (Exception exception){
+                                out.println("Error : " + exception.getMessage());
+                            }
+                            break;
+                        case 7:
+                            out.println(
+                                    "Thank you for using ATM Transaction Simulator!"
+                            );
+
+                            scanner.close();
+                            return;
+
                     }
                 }
 
 
 
             }catch (InputMismatchException e){
-                out.println("Invalid choice!!\nPlease Enter Valid Number : ");
+                out.println("Invalid choice!");
+                out.println("Please Enter a Valid Number.");
+                scanner.nextLine();
             }
         }
 
