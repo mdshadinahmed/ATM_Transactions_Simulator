@@ -40,7 +40,7 @@ public class Main {
             try{
                 int choice = scanner.nextInt();
                 if (choice > 7 || choice<=0){
-                    out.println("Please Enter the Number with 1-5\n\n");
+                    out.println("Please Enter the Number Between 1-5\n\n");
                 }else {
                     switch (choice){
 
@@ -139,6 +139,9 @@ public class Main {
                             }
                             break;
 
+                        //-----------------------------------------------
+                        //= Transfer Account
+                        //-----------------------------------------------
                         case 6:
                             out.println("Enter Sender account id : ");
                             int senderAccountId = scanner.nextInt();
@@ -161,6 +164,10 @@ public class Main {
                                 out.println("Error : " + exception.getMessage());
                             }
                             break;
+
+                        //-----------------------------------------------
+                        //= Exit Account
+                        //-----------------------------------------------
                         case 7:
                             out.println(
                                     "Thank you for using ATM Transaction Simulator!"
@@ -171,8 +178,6 @@ public class Main {
 
                     }
                 }
-
-
 
             }catch (InputMismatchException e){
                 out.println("Invalid choice!");
